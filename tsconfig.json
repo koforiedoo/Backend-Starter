@@ -22,5 +22,7 @@
     /* If your code runs in the DOM: */
     "lib": ["es2022", "dom", "dom.iterable"],
 
-  }
+    "types": ["node", "jest"]
+  },
+  "include": ["src/**/*.ts", "tests/*.ts"]
 }

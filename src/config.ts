@@ -9,15 +9,17 @@ function getEnv(name: string): string {
 const config = {
   app: {
     env: () => getEnv("NODE_ENV"),
+    name: () => getEnv("APP_NAME"),
+  },
+  server:{
     port: () => {
       try {
-        getEnv("PORT");
+        return getEnv("PORT");
       } catch (error) {
         console.log("Using Default Port");
         return 4000;
       }
     },
-    name: () => getEnv("APP_NAME"),
   },
   auth: {
     secret: () => getEnv("AUTH_SECRET"),

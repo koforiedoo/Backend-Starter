@@ -2,7 +2,7 @@ import config from "./config"
 import app from "./app"
 import mongoose from "mongoose"
 
-const port = config.app.port()
+const port = config.server.port()
 const mongoDBURI = config.mongoDb.uri()
 
 const server = {

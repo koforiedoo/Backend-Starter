@@ -1,9 +1,12 @@
-import { Router } from "express";
+import express from 'express';
+import { getAllBirdsRoute, createBirdRoute, getBirdById, updateBirdRoute, deleteBirdRoute } from '../controllers/bird';
 
-const router = Router()
+const router = express.Router();
 
-router.get("/",(req,res)=>{
-    res.send("getAllBirdsRoute")
-})
+router.get('/', getAllBirdsRoute);
+router.post('/', createBirdRoute);
+router.get('/:id', getBirdById);
+router.put('/:id', updateBirdRoute);
+router.delete('/:id', deleteBirdRoute);
 
-export default router 
+export default router;

@@ -1,4 +1,9 @@
-import  config  from "./config";
-import server from "./server";
+import { Request, Response } from "express";
+import { startServer } from "./server";
 
-server.start()
+// Example Express request and response
+const req: Request = {} as Request;
+const res: Response = {} as Response;
+
+// Start the server
+startServer();

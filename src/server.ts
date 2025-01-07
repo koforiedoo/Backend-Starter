@@ -1,19 +1,35 @@
-import config from "./config"
-import app from "./app"
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+import app from "./app";
+import config from "./config";
 
-const port = config.server.port()
-const mongoDBURI = config.mongoDb.uri()
+const port = config.server.port();
+const mongoDBURI = config.mongoDb.uri();
 
-const server = {
+let server: any; // To store the server instance
 
-    start: async () => {
+async function startServer() {
+  try {
+    // Connect to MongoDB
+    await mongoose.connect(mongoDBURI);
+    console.log("✅ Connected to MongoDB");
 
-        await mongoose.connect(mongoDBURI) 
-        app.listen(port, () => {
-            console.log(`Server Running  on Port ${port}`)
-        })
-    }
+    // Start the Express server
+    server = app.listen(port, () => {
+      console.log(`🚀 Server running on port ${port}`);
+    });
+
+    // Graceful shutdown
+    process.on("SIGINT", async () => {
+      console.log("\n🔄 Shutting down gracefully...");
+      if (server) server.close(() => console.log("🚪 Server closed"));
+      await mongoose.connection.close();
+      console.log("🔒 MongoDB connection closed");
+      process.exit(0);
+    });
+  } catch (error) {
+    console.error("❌ Error starting server:", (error as Error).message);
+    process.exit(1);
+  }
 }
 
-export default server
+export { startServer, server };

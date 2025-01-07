@@ -1,5 +1,5 @@
-import express from 'express';
-import { getAllBirdsRoute, createBirdRoute, getBirdById, updateBirdRoute, deleteBirdRoute } from '../controllers/bird';
+import express, { Request, Response, NextFunction } from 'express';
+import { getAllBirdsRoute, createBirdRoute, getBirdById, updateBirdRoute , deleteBirdRoute } from '../controllers/bird';
 
 const router = express.Router();
 

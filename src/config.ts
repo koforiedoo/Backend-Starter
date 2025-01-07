@@ -1,43 +1,27 @@
 import "dotenv/config";
 
-function getEnv(name: string): string {
-  if (process.env[name] === undefined)
-    throw new Error(`Environment Variable ${name} undefined`);
-  return process.env[name];
+function getEnv(name: string, fallback: string = ""): string {
+  const value = process.env[name];
+  if (value === undefined && fallback === null) {
+    throw new Error(`Environment Variable ${name} is undefined`);
+  }
+  return value || fallback;
 }
 
 const config = {
   app: {
-    env: () => getEnv("NODE_ENV"),
-    name: () => getEnv("APP_NAME"),
+    name: () => getEnv("APP_NAME", "MyApp"),
+    env: () => getEnv("NODE_ENV", "development"),
   },
-  server:{
-    port: () => {
-      try {
-        return getEnv("PORT");
-      } catch (error) {
-        console.log("Using Default Port");
-        return 4000;
-      }
-    },
+  server: {
+    port: () => parseInt(getEnv("PORT", "4000"), 10),
   },
   auth: {
-    secret: () => getEnv("AUTH_SECRET"),
+    secret: () => getEnv("AUTH_SECRET", "default_secret"),
   },
   mongoDb: {
-    uri: () => getEnv("MONGO_URI"),
+    uri: () => getEnv("MONGO_URI", ""),
   },
 };
 
 export default config;
-
-/*
-USE 
-import config 
-
-//RIGHT USE
-config.app.name() //returns environment variable if present in .env or throws error
-
-//WRONG USE
-config.app.name //returns function not value
-*/
